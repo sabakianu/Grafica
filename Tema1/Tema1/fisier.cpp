@@ -321,12 +321,53 @@ void Display3() {
 	fractalSquare(tBase, sideLength, g_recursionCurrent);
 }
 
+void arrowheadA(Turtle &t, double distance, int recursionsLeft);
+void arrowheadB(Turtle &t, double distance, int recursionsLeft);
+
+// Regula A: Folosește acum "distance" și "recursionsLeft" pentru uniformitate
+void arrowheadA(Turtle &t, double distance, int recursionsLeft) {
+	if (recursionsLeft <= 0) {
+		t.draw(distance);
+		return;
+	}
+	// Regula A devine: B - A - B
+	arrowheadB(t, distance, recursionsLeft - 1);
+	t.rotate(-pi / 3.0); // Rotație la dreapta
+	arrowheadA(t, distance, recursionsLeft - 1);
+	t.rotate(-pi / 3.0);
+	arrowheadB(t, distance, recursionsLeft - 1);
+}
+
+// Regula B: Folosește aceleași convenții de nume
+void arrowheadB(Turtle &t, double distance, int recursionsLeft) {
+	if (recursionsLeft <= 0) {
+		t.draw(distance);
+		return;
+	}
+	// Regula B devine: A + B + A
+	arrowheadA(t, distance, recursionsLeft - 1);
+	t.rotate(pi / 3.0); // Rotație la stânga
+	arrowheadB(t, distance, recursionsLeft - 1);
+	t.rotate(pi / 3.0);
+	arrowheadA(t, distance, recursionsLeft - 1);
+}
 
 void Display4() {
-	//Draw the triangle-like hex line fractal here.
 	glColor3f(1, 0, 0);
 	drawRecursionLevel();
 
+	Turtle tBase(-0.85, -0.7);
+
+	// Ajustare pentru nivele impare ca să stea drept pe ecran
+	if (g_recursionCurrent % 2 != 0) {
+		tBase.rotate(pi / 3.0);
+	}
+
+	// Calculăm mărimea pasului astfel încât fractalul să rămână la fel de mare
+	double sideLength = 1.7 / pow(2, g_recursionCurrent);
+
+	// Lansăm desenul folosind Regula A
+	arrowheadA(tBase, sideLength, g_recursionCurrent);
 }
 
 template <typename FloatType>
