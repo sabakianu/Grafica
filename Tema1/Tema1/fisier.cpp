@@ -266,11 +266,59 @@ void Display2() {
 	fractalBinaryTree(t, 0.95, g_recursionCurrent);
 }
 
+void fractalSquare(Turtle t, double distance, int recursionsLeft) {
+	// Ne oprim dacă am ajuns la ultimul nivel de detaliu dorit
+	if (recursionsLeft <= 0) return;
+
+	// Calculăm mărimea unei singure celule din grila de 3x3
+	double cellSize = distance / 3.0;
+
+	// Pregătim desenarea pătratului central:
+	// Copiem broscuța și o mutăm în poziția corectă (mijlocul grilei)
+	Turtle tCenter = t;
+	tCenter.move(cellSize);
+	tCenter.rotate(pi / 2.0);
+	tCenter.move(cellSize);
+	tCenter.rotate(-pi / 2.0);
+
+	// Desenăm pătratul din centrul figurii curente
+	drawSquare(tCenter, cellSize);
+
+	// Dacă nivelul de detaliu permite, trecem la împărțirea zonelor de pe margine
+	if (recursionsLeft > 1) {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				// Sărim peste celula din centru deoarece acolo am desenat deja
+				if (i == 1 && j == 1) continue;
+
+				// Poziționăm o broscuță nouă pentru fiecare dintre cele 8 pătrățele mărginașe
+				Turtle tNext = t;
+				tNext.move(i * cellSize);
+				tNext.rotate(pi / 2.0);
+				tNext.move(j * cellSize);
+				tNext.rotate(-pi / 2.0);
+
+				// Reluăm procesul pentru noul pătrățel mai mic, scăzând nivelul
+				fractalSquare(tNext, cellSize, recursionsLeft - 1);
+			}
+		}
+	}
+}
+
 void Display3() {
-	//Draw the recursive-square fractal here.
+	// Pregătim culoarea roșie și textul util de pe ecran
 	glColor3f(1, 0, 0);
 	drawRecursionLevel();
 
+	// Stabilim dimensiunea totală a desenului și punctul de plecare (stânga-jos)
+	double sideLength = 1.9;
+	Turtle tBase(-0.95, -0.95);
+
+	// Desenăm cadrul mare în care se va desfășura tot fractalul
+	drawSquare(tBase, sideLength);
+
+	// Pornim desenarea recursivă bazată pe nivelul setat din taste (+/-)
+	fractalSquare(tBase, sideLength, g_recursionCurrent);
 }
 
 
