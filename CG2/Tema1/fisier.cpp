@@ -341,18 +341,16 @@ void Display1() {
 void Display2() {
     drawGrid();
 
-    int points = 16;
-    int cx = 20, cy = 20, r = 16;
-    int vx[16];
-    int vy[16];
+    // Numărul de puncte (vârfuri) ale poligonului deformat din poză
+    int points = 14;
 
-    for (int i = 0; i < points; i++) {
-        float angle = i * 6.28318f / points + 0.15f;
-        vx[i] = cx + r * std::cos(angle);
-        vy[i] = cy + r * std::sin(angle);
-    }
+    // Coordonatele alese manual pentru a replica forma asimetrică din Task 2
+    int vx[14] = {14, 21, 29, 36, 38, 36, 30, 24, 15, 10,  6,  4,  5, 10};
+    int vy[14] = {36, 35, 34, 30, 22, 13,  6,  6,  6,  8, 14, 22, 29, 32};
 
+    // Desenăm liniile între puncte
     for (int i = 0; i < points; i++) {
+        // Conectăm punctul curent cu următorul. Ultimul se conectează cu primul (i + 1) % points
         drawLine(vx[i], vy[i], vx[(i + 1) % points], vy[(i + 1) % points]);
     }
 }
