@@ -143,13 +143,10 @@ void Display3() {
 
 	glBegin(GL_LINE_STRIP);
 
-	// f(0) = 1
 	glVertex2d(0.0, 1.0);
 
-	// Parcurgem x de la o valoare foarte mică până la 100
 	double x_limit = 20.0;
-	double sampling_step = 0.01; // Pas mic pentru o curbă fină
-
+	double sampling_step = 0.01;
 	for (double x = sampling_step; x <= x_limit; x += sampling_step) {
 		double dx = fabs(x - round(x));
 		double fx = dx / x;
