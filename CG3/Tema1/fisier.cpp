@@ -225,6 +225,32 @@ void Display1() {
 }
 
 void Display2() {
+  advanceAnimationTime();
+
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  glLoadIdentity();
+  glOrtho(-1.5, 3.5, -1.0, 3.0, g_sceneDepth - g_sceneZRadius, g_sceneDepth + g_sceneZRadius);
+
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+  glTranslated(0, 0, -g_sceneDepth);
+
+  double unghi = -15.0 * (sin(g_animationProgress * tau) * 0.5 + 0.5);
+  glRotated(unghi, 0, 1, 0);
+
+  drawAxes(2.0);
+
+  drawCube(1, 1);
+
+  glPushMatrix();
+  glTranslated(1, 0, -2);
+  drawCube(1, 1);
+  glPopMatrix();
+
+  glPopMatrix();
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
 }
 
 
