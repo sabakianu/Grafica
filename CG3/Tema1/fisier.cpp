@@ -204,7 +204,16 @@ void Display1() {
 
   //glRotated receives angles in degrees
   //the rotation axis is the first diagonal of the space
-  glRotated(g_animationProgress * 360, 1, 1, 1);
+  double theta = asin(1.0 / sqrt(3.0)) * rad2deg;
+  double unghi = g_animationProgress * 360.0;
+
+  glRotated(45.0, 0, 1, 0);
+  glRotated(-theta, 1, 0, 0);
+
+  glRotated(unghi, 0, 0, 1);
+
+  glRotated(theta, 1, 0, 0);
+  glRotated(-45.0, 0, 1, 0);
   /*
     Task 1: decompose the above rotation so it happens only alongside
     axes. I.e.: glRotated(angle, 0, 0, 1);
