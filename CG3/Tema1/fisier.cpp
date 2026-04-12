@@ -284,6 +284,32 @@ void Display3() {
 }
 
 void Display4() {
+  advanceAnimationTime();
+
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  glLoadIdentity();
+  glOrtho(-2.0, 2.0, -2.0, 2.0, g_sceneDepth - g_sceneZRadius, g_sceneDepth + g_sceneZRadius);
+
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+  glLoadIdentity();
+  glTranslated(0, 0, -g_sceneDepth);
+
+  float m[16] = {
+    1.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, 1.0f, 0.0f, 0.0f,
+    -0.35f, -0.35f, 1.0f, 0.0f,
+    0.0f, 0.0f, 0.0f, 1.0f
+};
+  glMultMatrixf(m);
+
+  drawAxes(2.0);
+  drawCube(1.0, 1.0);
+
+  glPopMatrix();
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
 }
 
 void Display5() {
