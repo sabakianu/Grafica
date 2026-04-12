@@ -1,0 +1,1 @@
+unset surface; set cntrparam levels 20; set contour; set table "sg3_contourtmp2.table"; splot "sg3_contourtmp2.dat";
